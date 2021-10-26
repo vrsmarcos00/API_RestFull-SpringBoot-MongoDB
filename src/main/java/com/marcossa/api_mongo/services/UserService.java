@@ -1,12 +1,14 @@
 package com.marcossa.api_mongo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.marcossa.api_mongo.domain.User;
 import com.marcossa.api_mongo.repository.UserRepository;
+import com.marcossa.api_mongo.services.exception.ObjectNotFoundException;
 
 @Service
 public class UserService  {
@@ -16,5 +18,10 @@ public class UserService  {
 	
 	 public List<User> findAll(){
 		 return repository.findAll();
+	 }
+	 
+	 public User findById(String id) {
+		 Optional<User> user = repository.findById(id);
+		 return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
 	 }
 }
